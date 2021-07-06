@@ -43,7 +43,7 @@ const SliderImages = () => {
   const deleteSlider = (index) => {
     axios
       .delete(
-        "http://localhost:8000/api/deleteSliderImage/" +
+        "https://dentalapp-nodebackend.herokuapp.com/api/deleteSliderImage/" +
           index
       )
       .then((response) => {
@@ -62,7 +62,7 @@ const SliderImages = () => {
     console.log(e.target.files[0])
     axios
       .post(
-        "http://localhost:8000/api/addSliderImage"
+        "https://dentalapp-nodebackend.herokuapp.com/api/addSliderImage"
       ,data)
       .then((response) => {
         //   console.log(data)

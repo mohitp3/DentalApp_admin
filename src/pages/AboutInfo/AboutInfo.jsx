@@ -8,20 +8,21 @@ import {
   Publish,
 } from "@material-ui/icons";
 //   import { Link } from "react-router-dom";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { getAboutInfo,addAboutInfo} from "../../redux/Actions";
+import { getAboutInfo, addAboutInfo } from "../../redux/Actions";
 
 import "./AboutInfo.css";
 
 const AboutInfo = () => {
-    /**
-     * state handle
-     */
-     const [title,setTitle] = useState("");
-     const [description,setDescription] = useState("");
-     const [icon,setIcon] = useState("");
+  /**
+   * state handle
+   */
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [icon, setIcon] = useState("");
+  const [edit, setUpdate] = useState(false);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -41,28 +42,44 @@ const AboutInfo = () => {
 
   const { aboutInfo } = useSelector((state) => state.data);
 
-
-  const handleSubmit =(e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://dentalapp-nodebackend.herokuapp.com/api/addAboutInfo',{title,description,icon}).then((response)=>{
-        dispatch(addAboutInfo(response.data));            
-        }).catch(err=>{
-          console.log(err);
-        });       
-        setTitle("")
-        setDescription("")
-        setIcon("")
-  }
+    axios
+      .post("https://dentalapp-nodebackend.herokuapp.com/api/addAboutInfo", {
+        title,
+        description,
+        icon,
+      })
+      .then((response) => {
+        dispatch(addAboutInfo(response.data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setTitle("");
+    setDescription("");
+    setIcon("");
+  };
+
+  const handleEdit = (e, index) => {
+    e.preventDefault();
+    setUpdate(true);
+    const getData = aboutInfo.findIndex((item) => item._id === index);
+    setTitle(aboutInfo[getData].title);
+    setDescription(aboutInfo[getData].description);
+    setIcon(aboutInfo[getData].icon);
+    // dispatch(updateIndexAI(index));
+  };
 
   return (
     <div className="user">
       <div className="userTitleContainer">
         <h1 className="userTitle">About Info</h1>
-       </div>
+      </div>
       <div className="userContainer">
         {aboutInfo &&
-          aboutInfo.map((item,index) => (
-            <div className="userShow">
+          aboutInfo.map((item, index) => (
+            <div key={item._id} className="userShow">
               <div className="userShowBottom">
                 <span className="userShowTitle">{item.title}</span>
                 <div className="userShowInfo">
@@ -73,12 +90,18 @@ const AboutInfo = () => {
                   <CalendarToday className="userShowIcon" />
                   <span className="userShowInfoTitle">{item.icon}</span>
                 </div>
+                <button
+                  className="userUpdateButton"
+                  onClick={(e) => handleEdit(e, item._id)}
+                >
+                  Edit
+                </button>
               </div>
             </div>
           ))}
 
         <div className="userUpdate">
-          <span className="userUpdateTitle">Add</span>
+          <span className="userUpdateTitle">{edit ? "Update" : "Add"}</span>
           <form className="userUpdateForm">
             <div className="userUpdateLeft">
               <div className="userUpdateItem">
@@ -87,8 +110,10 @@ const AboutInfo = () => {
                   type="text"
                   placeholder="Title"
                   className="userUpdateInput"
-                  value = {title}
-                  onChange = {e=>{setTitle(e.target.value)}}
+                  value={title}
+                  onChange={(e) => {
+                    setTitle(e.target.value);
+                  }}
                 />
               </div>
               <div className="userUpdateItem">
@@ -97,8 +122,10 @@ const AboutInfo = () => {
                   type="text"
                   placeholder="Description"
                   className="userUpdateInput"
-                  value = {description}
-                  onChange = {e=>{setDescription(e.target.value)}}
+                  value={description}
+                  onChange={(e) => {
+                    setDescription(e.target.value);
+                  }}
                 />
               </div>
               <div className="userUpdateItem">
@@ -107,11 +134,12 @@ const AboutInfo = () => {
                   type="text"
                   placeholder=""
                   className="userUpdateInput"
-                  value = {icon}
-                  onChange = {e=>{setIcon(e.target.value)}}
+                  value={icon}
+                  onChange={(e) => {
+                    setIcon(e.target.value);
+                  }}
                 />
               </div>
-              
             </div>
             <div className="userUpdateRight">
               {/* <div className="userUpdateUpload">
@@ -125,7 +153,9 @@ const AboutInfo = () => {
                 </label>
                 <input type="file" id="file" style={{ display: "none" }} />
               </div> */}
-              <button className="userUpdateButton" onClick={handleSubmit}>Add New</button>
+              <button className="userUpdateButton" onClick={handleSubmit}>
+                {edit ? "Update" : "Add New"}
+              </button>
             </div>
           </form>
         </div>
