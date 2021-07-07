@@ -5,6 +5,7 @@ import Home from "./pages/home/Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SliderImages from "./pages/SliderImages/SliderImages";
 import AboutInfo from "./pages/AboutInfo/AboutInfo";
+import Doctors from "./pages/Doctors/Doctors";
 
 // import User from "./pages/user/User";
 // import NewUser from "./pages/newUser/NewUser";
@@ -27,6 +28,9 @@ function App() {
           </Route>
           <Route exact path="/aboutinfo">
             <AboutInfo />
+          </Route>
+          <Route exact path="/doctors">
+            <Doctors />
           </Route>
           {/* <Route path="/user/:userId">
             <User />

@@ -30,3 +30,29 @@ export const addAboutInfo = (data) => ({
   type: types.ADD_ABOUTINFO,
   payload:data
 });
+export const updateAboutInfo = (data) => ({
+  type: types.UPDATE_ABOUTINFO,
+  payload:data
+});
+export const deleteAboutInfo = (id) => ({
+  type: types.DELETE_ABOUTINFO,
+  payload:id
+});
+
+
+export const addDoctor = (data) => ({
+  type: types.ADD_DOCTOR,
+  payload:data
+});
+export const getDoctorList = (data) => ({
+  type: types.GET_DOCTORLIST,
+  payload:data
+});
+export const updateDoctor = (data) => ({
+  type: types.UPDATE_DOCTOR,
+  payload:data
+});
+export const deleteDoctor = (id) => ({
+  type: types.DELETE_DOCTOR,
+  payload:id
+});

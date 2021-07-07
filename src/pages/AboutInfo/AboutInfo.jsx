@@ -11,7 +11,12 @@ import {
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { getAboutInfo, addAboutInfo } from "../../redux/Actions";
+import {
+  getAboutInfo,
+  addAboutInfo,
+  updateAboutInfo,
+  deleteAboutInfo,
+} from "../../redux/Actions";
 
 import "./AboutInfo.css";
 
@@ -22,7 +27,7 @@ const AboutInfo = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [icon, setIcon] = useState("");
-  const [edit, setUpdate] = useState(false);
+  const [edit, setUpdate] = useState("");
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -44,18 +49,39 @@ const AboutInfo = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("https://dentalapp-nodebackend.herokuapp.com/api/addAboutInfo", {
-        title,
-        description,
-        icon,
-      })
-      .then((response) => {
-        dispatch(addAboutInfo(response.data));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (edit) {
+      axios
+        .post(
+          "https://dentalapp-nodebackend.herokuapp.com/api/updateAboutInfo/" +
+            edit,
+          {
+            title,
+            description,
+            icon,
+          }
+        )
+        .then((response) => {
+          dispatch(updateAboutInfo(response.data));
+          setUpdate("");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      axios
+        .post("https://dentalapp-nodebackend.herokuapp.com/api/addAboutInfo", {
+          title,
+          description,
+          icon,
+        })
+        .then((response) => {
+          dispatch(addAboutInfo(response.data));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
     setTitle("");
     setDescription("");
     setIcon("");
@@ -63,12 +89,27 @@ const AboutInfo = () => {
 
   const handleEdit = (e, index) => {
     e.preventDefault();
-    setUpdate(true);
+    setUpdate(index);
     const getData = aboutInfo.findIndex((item) => item._id === index);
     setTitle(aboutInfo[getData].title);
     setDescription(aboutInfo[getData].description);
     setIcon(aboutInfo[getData].icon);
     // dispatch(updateIndexAI(index));
+  };
+
+  const handleDelete = (e, index) => {
+    e.preventDefault();
+    axios
+      .delete(
+        "https://dentalapp-nodebackend.herokuapp.com/api/deleteAboutInfo/" +
+          index
+      )
+      .then((response) => {
+        dispatch(deleteAboutInfo(index));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -95,6 +136,12 @@ const AboutInfo = () => {
                   onClick={(e) => handleEdit(e, item._id)}
                 >
                   Edit
+                </button>
+                <button
+                  className="userUpdateButton"
+                  onClick={(e) => handleDelete(e, item._id)}
+                >
+                  Delete
                 </button>
               </div>
             </div>
