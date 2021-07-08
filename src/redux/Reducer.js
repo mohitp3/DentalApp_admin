@@ -5,6 +5,10 @@ const initialState = {
   sliderImage: [],
   aboutInfo: [],
   doctorList: [],
+  services: [],
+  gallery: [],
+  blogs: [],
+  clinicData: [{ rooms: 0, dentists: 0, machines: 0, patients: 0, _id: 0 }],
 };
 
 const appointmentReducer = (state = initialState, action) => {
@@ -104,12 +108,117 @@ const appointmentReducer = (state = initialState, action) => {
       if (delDocIndex > -1) {
         deldoc.splice(delDocIndex, 1);
       }
+
+    case types.GET_SERVICES:
       return {
         ...state,
-        doctorList: deldoc,
+        services: payload,
+      };
+    case types.ADD_SERVICES:
+      const newServ = [...state.services, payload];
+      return {
+        ...state,
+        services: newServ,
+      };
+    case types.UPDATE_SERVICES:
+      const editSerIndex = state.services.findIndex(
+        (item) => item._id === payload._id
+      );
+      const updatedserv = [...state.services];
+      if (editSerIndex) {
+        updatedserv[editSerIndex] = payload;
+      }
+      return {
+        ...state,
+        services: updatedserv,
+      };
+    case types.DELETE_SERVICES:
+      const delSerIndex = state.services.findIndex(
+        (item) => item._id === payload
+      );
+      const delSer = [...state.services];
+      if (delSerIndex > -1) {
+        delSer.splice(delSerIndex, 1);
+      }
+      return {
+        ...state,
+        services: delSer,
+      };
+    case types.ADD_GAL_IMAGE:
+      let addedGalImage = [...state.gallery, payload];
+
+      return {
+        ...state,
+        gallery: addedGalImage,
+      };
+    case types.GET_GAL_IMAGE:
+      return {
+        ...state,
+        gallery: payload,
+      };
+    case types.DELETE_GAL_IMAGE:
+      let newgal = [...state.gallery];
+      const galIndex = state.gallery.findIndex((item) => item._id === payload);
+      if (galIndex > -1) {
+        newgal.splice(galIndex, 1);
+      }
+      return {
+        ...state,
+        gallery: newgal,
+      };
+    case types.ADD_BLOG:
+      let addedBlog = [...state.blogs, payload];
+
+      return {
+        ...state,
+        blogs: addedBlog,
+      };
+    case types.GET_BLOG:
+      return {
+        ...state,
+        blogs: payload,
+      };
+    case types.DELETE_BLOG:
+      let newBlog = [...state.blogs];
+      const blogIndex = state.blogs.findIndex((item) => item._id === payload);
+      if (blogIndex > -1) {
+        newBlog.splice(blogIndex, 1);
+      }
+      return {
+        ...state,
+        blogs: newBlog,
+      };
+    case types.UPDATE_BLOG:
+      const editBlog = state.blogs.findIndex(
+        (item) => item._id === payload._id
+      );
+      const updatedBlog = [...state.blogs];
+      if (editBlog) {
+        updatedBlog[editBlog] = payload;
+      }
+      return {
+        ...state,
+        blogs: updatedserv,
+      };
+    case types.GET_CLINIC_DATA:
+      return {
+        ...state,
+        clinicData: payload,
       };
 
-      
+    case types.UPDATE_CLINIC_DATA:
+      const editedCLIndex = state.clinicData.findIndex(
+        (item) => item._id === payload._id
+      );
+      const updatedClInfo = [...state.clinicData];
+      if (editedCLIndex) {
+        updatedClInfo[editedCLIndex] = payload;
+      }
+
+      return {
+        ...state,
+        clinicData: updatedClInfo,
+      };
 
     default:
       return state;

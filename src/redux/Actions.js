@@ -56,3 +56,61 @@ export const deleteDoctor = (id) => ({
   type: types.DELETE_DOCTOR,
   payload:id
 });
+
+
+export const getServices = (data) => ({
+  type: types.GET_SERVICES,
+  payload:data
+});
+export const addService = (data) => ({
+  type: types.ADD_SERVICES,
+  payload:data
+});
+export const updateService = (data) => ({
+  type: types.UPDATE_SERVICES,
+  payload:data
+});
+export const deleteService = (id) => ({
+  type: types.DELETE_SERVICES,
+  payload:id
+});
+
+export const addGalleryImage = (data) => ({
+  type: types.ADD_GAL_IMAGE,
+  payload:data
+});
+export const getGalleryImage = (data) => ({
+  type: types.GET_GAL_IMAGE,
+  payload:data
+});
+export const deleteGalleryImage = (id) => ({
+  type: types.DELETE_GAL_IMAGE,
+  payload:id
+});
+
+export const getBlog = (data) => ({
+  type: types.GET_BLOG,
+  payload:data
+});
+export const addBlog = (data) => ({
+  type: types.ADD_BLOG,
+  payload:data
+});
+export const deleteBlog = (id) => ({
+  type: types.DELETE_BLOG,
+  payload:id
+});
+export const updateBlog = (data) => ({
+  type: types.UPDATE_BLOG,
+  payload:data
+});
+
+export const getClinicData = (data) => ({
+  type: types.GET_CLINIC_DATA,
+  payload:data
+});
+export const updateClinicData = (data) => ({
+  type: types.UPDATE_CLINIC_DATA,
+  payload:data
+});
+

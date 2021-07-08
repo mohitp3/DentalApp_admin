@@ -19,21 +19,35 @@ const Doctors = () => {
   const [aboutTitle, setabTitle] = useState("");
   const [aboutDescription, setabDesc] = useState("");
   const [speciality, setSpeciality] = useState([]);
-  const spec = [
-    {
+  const spec = {
+    "teathWhitening" :{
       title: "Teeth Whitening",
       description: "Lorem ipsum dolor sit amet, consectetur ipsum dolor.",
       icon: "flaticon-medical-first32 text-white",
     },
-    {
+    "teathCleaning":{
       title: "Teeth Cleaning",
       description: "Lorem ipsum dolor sit amet, consectetur ipsum dolor.",
       icon: "flaticon-medical-brush18 text-white",
     },
-  ];
+    "oralSurgery":{
+      title: "Oral surgery",
+      description: "Lorem ipsum dolor sit amet, consectetur ipsum dolor.",
+      icon: "flaticon-medical-brush18 text-white",
+    },
+    "qualityBrackets":{
+      title: "Quality Brackets",
+      description: "Lorem ipsum dolor sit amet, consectetur ipsum dolor.",
+      icon: "flaticon-medical-brush18 text-white",
+    },
+  };
   const submitDoc = (e) => {
     e.preventDefault();
-    // console.log(JSON.stringify(speciality))
+    // console.log(speciality)
+    const dataSpec  = [];
+    speciality.forEach((item)=>{
+      dataSpec.push(spec[item])
+    })
     if (editIndex) {
       axios
         .post(
@@ -44,7 +58,7 @@ const Doctors = () => {
             expertism,
             aboutTitle,
             aboutDescription,
-            speciality: spec,
+            speciality: dataSpec,
           }
         )
         .then((response) => {
@@ -61,7 +75,7 @@ const Doctors = () => {
           expertism,
           aboutTitle,
           aboutDescription,
-          speciality: spec,
+          speciality: dataSpec,
         })
         .then((response) => {
           dispatch(addDoctor(response.data));
@@ -200,11 +214,16 @@ const Doctors = () => {
             >
               <option value="teathWhitening">Teeth Whitening</option>
               <option value="teathCleaning">Teeth Cleaning</option>
+              <option value="oralSurgery">Oral surgery</option>
+              <option value="qualityBrackets">Quality Brackets</option>
+              
             </select>
           </div>
-          <button className="newUserButton" onClick={submitDoc}>
+          <div className="newUserItem">
+          <button className="newUserButton" onClick={submitDoc} style={{marginTop:"40px"}}>
             {editIndex ? "Update" : "Create"}
           </button>
+          </div>
         </form>
       </div>
       <div className="userTitleContainer">

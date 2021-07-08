@@ -6,6 +6,10 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SliderImages from "./pages/SliderImages/SliderImages";
 import AboutInfo from "./pages/AboutInfo/AboutInfo";
 import Doctors from "./pages/Doctors/Doctors";
+import Services from "./pages/Services/Services";
+import Gallery from "./pages/Gallery/Gallery";
+import Blogs from "./pages/Blogs/Blogs";
+import ClinicData from "./pages/ClinicData/ClinicData";
 
 // import User from "./pages/user/User";
 // import NewUser from "./pages/newUser/NewUser";
@@ -31,6 +35,18 @@ function App() {
           </Route>
           <Route exact path="/doctors">
             <Doctors />
+          </Route>
+          <Route exact path="/services">
+            <Services />
+          </Route>
+          <Route exact path="/clinicdata">
+            <ClinicData />
+          </Route>
+          <Route exact path="/gallery">
+            <Gallery />
+          </Route>
+          <Route exact path="/blogs">
+            <Blogs />
           </Route>
           {/* <Route path="/user/:userId">
             <User />
