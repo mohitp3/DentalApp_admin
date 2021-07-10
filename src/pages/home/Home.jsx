@@ -13,7 +13,7 @@ export default function Home() {
   const dispatch = useDispatch();
   useEffect(() => {
     axios
-      .get("https://dentalapp-nodebackend.herokuapp.com/api/getAppointments")
+      .get("http://3.142.172.158:8000/api/getAppointments")
       .then((response) => {
         if (response.data) {
           dispatch(getAppointments(response.data));

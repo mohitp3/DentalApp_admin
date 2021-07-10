@@ -51,7 +51,7 @@ const Doctors = () => {
     if (editIndex) {
       axios
         .post(
-          "https://dentalapp-nodebackend.herokuapp.com/api/updateDoctor/" +
+          "http://3.142.172.158:8000/api/updateDoctor/" +
             editIndex,
           {
             name,
@@ -70,7 +70,7 @@ const Doctors = () => {
         });
     } else {
       axios
-        .post("https://dentalapp-nodebackend.herokuapp.com/api/addDoctor", {
+        .post("http://3.142.172.158:8000/api/addDoctor", {
           name,
           expertism,
           aboutTitle,
@@ -111,7 +111,7 @@ const Doctors = () => {
 
   useEffect(() => {
     axios
-      .get("https://dentalapp-nodebackend.herokuapp.com/api/getDoctorList")
+      .get("http://3.142.172.158:8000/api/getDoctorList")
       .then((response) => {
         if (response.data) {
           dispatch(getDoctorList(response.data));
@@ -139,7 +139,7 @@ const Doctors = () => {
     e.preventDefault();
     axios
       .delete(
-        "https://dentalapp-nodebackend.herokuapp.com/api/deleteDoctor/" +
+        "http://3.142.172.158:8000/api/deleteDoctor/" +
           index
       )
       .then((response) => {

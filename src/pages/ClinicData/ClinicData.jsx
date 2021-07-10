@@ -18,7 +18,7 @@ const ClinicData = () => {
 
     useEffect(() => {
         axios
-          .get("https://dentalapp-nodebackend.herokuapp.com/api/getClinicData")
+          .get("http://3.142.172.158:8000/api/getClinicData")
           .then((response) => {
             if (response.data) {
               dispatch(getClinicData(response.data));
@@ -42,7 +42,7 @@ const ClinicData = () => {
         e.preventDefault();
         axios
               .post(
-                "https://dentalapp-nodebackend.herokuapp.com/api/updateClinicData/" +
+                "http://3.142.172.158:8000/api/updateClinicData/" +
                 index,
                   {
                       dentists,machines,rooms,patients

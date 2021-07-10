@@ -32,7 +32,7 @@ const AboutInfo = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     axios
-      .get("https://dentalapp-nodebackend.herokuapp.com/api/getAboutInfo")
+      .get("http://3.142.172.158:8000/api/getAboutInfo")
       .then((response) => {
         if (response.data) {
           dispatch(getAboutInfo(response.data));
@@ -52,7 +52,7 @@ const AboutInfo = () => {
     if (edit) {
       axios
         .post(
-          "https://dentalapp-nodebackend.herokuapp.com/api/updateAboutInfo/" +
+          "http://3.142.172.158:8000/api/updateAboutInfo/" +
             edit,
           {
             title,
@@ -69,7 +69,7 @@ const AboutInfo = () => {
         });
     } else {
       axios
-        .post("https://dentalapp-nodebackend.herokuapp.com/api/addAboutInfo", {
+        .post("http://3.142.172.158:8000/api/addAboutInfo", {
           title,
           description,
           icon,
@@ -101,7 +101,7 @@ const AboutInfo = () => {
     e.preventDefault();
     axios
       .delete(
-        "https://dentalapp-nodebackend.herokuapp.com/api/deleteAboutInfo/" +
+        "http://3.142.172.158:8000/api/deleteAboutInfo/" +
           index
       )
       .then((response) => {

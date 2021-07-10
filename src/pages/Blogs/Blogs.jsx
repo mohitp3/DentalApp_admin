@@ -37,7 +37,7 @@ const Blogs = () => {
 
     useEffect(() => {
         axios
-          .get("https://dentalapp-nodebackend.herokuapp.com/api/getBlog")
+          .get("http://3.142.172.158:8000/api/getBlog")
           .then((response) => {
             if (response.data) {
               dispatch(getBlog(response.data));
@@ -60,7 +60,7 @@ const Blogs = () => {
         if (editIndex) {
             axios
               .post(
-                "https://dentalapp-nodebackend.herokuapp.com/api/updateBlog/" +
+                "http://3.142.172.158:8000/api/updateBlog/" +
                   editIndex,
                   imgData
               )
@@ -74,7 +74,7 @@ const Blogs = () => {
           } else {
         axios
           .post(
-            "https://dentalapp-nodebackend.herokuapp.com/api/addBlog",
+            "http://3.142.172.158:8000/api/addBlog",
             imgData
           )
           .then((response) => {
@@ -102,7 +102,7 @@ const Blogs = () => {
       const delBlog =(index)=>{
         axios
           .delete(
-            "https://dentalapp-nodebackend.herokuapp.com/api/deleteBlog/" +
+            "http://3.142.172.158:8000/api/deleteBlog/" +
               index
           )
           .then((response) => {
@@ -168,7 +168,7 @@ const Blogs = () => {
               <CardMedia
                 className={classes.media}
                 image={
-                  "https://dentalapp-nodebackend.herokuapp.com/" + item.imageUrl
+                  "http://3.142.172.158:8000/" + item.imageUrl
                 }
                 title="Contemplative Reptile"
               />

@@ -25,7 +25,7 @@ const SliderImages = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     axios
-      .get("https://dentalapp-nodebackend.herokuapp.com/api/getSliderImage")
+      .get("http://3.142.172.158:8000/api/getSliderImage")
       .then((response) => {
         if (response.data) {
           dispatch(getSliderImage(response.data));
@@ -43,7 +43,7 @@ const SliderImages = () => {
   const deleteSlider = (index) => {
     axios
       .delete(
-        "https://dentalapp-nodebackend.herokuapp.com/api/deleteSliderImage/" +
+        "http://3.142.172.158:8000/api/deleteSliderImage/" +
           index
       )
       .then((response) => {
@@ -62,7 +62,7 @@ const SliderImages = () => {
     console.log(e.target.files[0])
     axios
       .post(
-        "https://dentalapp-nodebackend.herokuapp.com/api/addSliderImage"
+        "http://3.142.172.158:8000/api/addSliderImage"
       ,data)
       .then((response) => {
         //   console.log(data)
@@ -90,7 +90,7 @@ const SliderImages = () => {
               <CardMedia
                 className={classes.media}
                 image={
-                  "https://dentalapp-nodebackend.herokuapp.com/" + item.imgUrl
+                  "http://3.142.172.158:8000/" + item.imgUrl
                 }
                 title="Contemplative Reptile"
               />
