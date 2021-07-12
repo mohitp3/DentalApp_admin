@@ -1,13 +1,12 @@
-// import Chart from "../../components/chart/Chart";
-import FeaturedInfo from "../../components/featuredInfo/FeaturedInfo";
 import { useEffect } from "react";
 import "./home.css";
 import axios from "axios";
-// import { userData } from "../../dummyData";
-// import WidgetSm from "../../components/widgetSm/WidgetSm";
-// import WidgetLg from "../../components/widgetLg/WidgetLg";
+import { Button } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
+import { DeleteOutline } from "@material-ui/icons";
+
 import { useDispatch,useSelector } from "react-redux";
-import { getAppointments } from "../../redux/Actions";
+import { getAppointments , deleteAppointment } from "../../redux/Actions";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -28,28 +27,51 @@ export default function Home() {
 
   const { appointments } = useSelector((state) => state.data);
 
+  const handleDelete = (e, index) => {
+    e.preventDefault();
+    dispatch(deleteAppointment(index));
+  };
   return (
-    <div className="home">
-      {
-        appointments.map((item,index)=>(
-          <FeaturedInfo
-          key={item._id}
-          id = {item._id}
-          name={item.name}
-          email={item.email}
-          message = {item.message}
-          appointmentDate = {item.appointmentDate}
-          />
-
-        ))
-      }
+    <div className="user">
+      <div className="userTitleContainer">
+        <h1 className="userTitle">Appointments</h1>
+      </div>
+      <div className="productList">
+        <table className="widgetLgTable">
+          <tbody>
+            <tr className="widgetLgTr">
+              <th className="widgetLgTh">Index</th>
+              <th className="widgetLgTh">Name</th>
+              <th className="widgetLgTh">Email</th>
+              <th className="widgetLgTh">Message</th>
+              <th className="widgetLgTh">Appointment Date</th>
+              <th className="widgetLgTh">Delete</th>
+            </tr>
+            {appointments &&
+              appointments.map((item, index) => (
+                <tr className="widgetLgTr" key={item._id}>
+                  <td className="widgetLgName">{index + 1}</td>
+                  <td className="widgetLgName">{item.name}</td>
+                  <td className="widgetLgName">{item.email}</td>
+                  <td className="widgetLgName">{item.message}</td>
+                  <td className="widgetLgName">{item.appointmentDate}</td>
+                  <td>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={(e) => {
+                        handleDelete(e, item._id);
+                      }}
+                    >
+                      <DeleteOutline />
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
       
-      {/* <Chart data={userData} title="User Analytics" grid dataKey="Active User"/> */}
-      {/* <div className="homeWidgets">
-        <h3>{appointments.length}</h3>
-        <WidgetSm/>
-        <WidgetLg/>
-      </div> */}
     </div>
   );
 }

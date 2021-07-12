@@ -244,7 +244,7 @@ const Doctors = () => {
             </tr>
             {doctorList &&
               doctorList.map((item, index) => (
-                <tr className="widgetLgTr" key={item._id}>
+                <tr key={item._id} className="widgetLgTr" key={item._id}>
                   <td className="widgetLgName">{index + 1}</td>
                   <td className="widgetLgName">{item.name}</td>
                   <td className="widgetLgName">{item.expertism}</td>

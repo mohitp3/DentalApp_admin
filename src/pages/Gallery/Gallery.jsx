@@ -8,7 +8,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-
+import Grid from "@material-ui/core/Grid";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import "./Gallery.css";
@@ -125,15 +125,18 @@ const Gallery = () => {
           </div>
 
           <div className="newUserItem">
-            <button className="newUserButton" onClick={submitDoc}>
+            <button className="newgalButton" onClick={submitDoc}>
               Add Gallery Image
             </button>
           </div>
         </form>
       </div>
+      <Grid container spacing={3}>
+
       {gallery &&
         gallery.map((item) => (
-          <Card className={classes.root} key={item._id}>
+          <Grid key={item._id} item xs={3} className={classes.root}>
+            <Card className={classes.root} key={item._id}>
             <CardActionArea>
               <CardMedia
                 className={classes.media}
@@ -161,7 +164,10 @@ const Gallery = () => {
               </Button>
             </CardActions>
           </Card>
+          </Grid>
+          
         ))}
+        </Grid>
     </div>
   );
 };

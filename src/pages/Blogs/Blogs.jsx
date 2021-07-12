@@ -8,11 +8,11 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-
+import Grid from "@material-ui/core/Grid";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import "./Blogs.css";
-import { addBlog, getBlog ,deleteBlog, updateBlog } from "../../redux/Actions";
+import { addBlog, getBlog, deleteBlog, updateBlog } from "../../redux/Actions";
 
 const useStyles = makeStyles({
   root: {
@@ -24,102 +24,91 @@ const useStyles = makeStyles({
 });
 
 const Blogs = () => {
+  const classes = useStyles();
 
-    const classes = useStyles();
+  const dispatch = useDispatch();
+  const { blogs } = useSelector((state) => state.data);
+  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState("");
+  const [imageUrl, setImgUrl] = useState("");
+  const [editIndex, setEdit] = useState("");
 
-    const dispatch = useDispatch();
-    const { blogs } = useSelector((state) => state.data);
-    const [description, setDescription] = useState("");
-    const [title, setTitle] = useState("");
-    const [imageUrl, setImgUrl] = useState("");
-    const [editIndex, setEdit] = useState("");
-
-
-    useEffect(() => {
-        axios
-          .get("http://3.142.172.158:8000/api/getBlog")
-          .then((response) => {
-            if (response.data) {
-              dispatch(getBlog(response.data));
-            } else {
-              dispatch(getBlog([]));
-            }
-          })
-          .catch((err) => {
-            dispatch(getBlog([]));
-          });
-      }, [dispatch]);
-
-      const submitDoc = (e) => {
-        e.preventDefault();
-        let imgData = new FormData();
-        imgData.append("imageUrl", imageUrl, imageUrl.name);
-        imgData.append("title", title);
-        imgData.append("description", description);
-
-        if (editIndex) {
-            axios
-              .post(
-                "http://3.142.172.158:8000/api/updateBlog/" +
-                  editIndex,
-                  imgData
-              )
-              .then((response) => {
-                dispatch(updateBlog(response.data));
-                setEdit("");
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          } else {
-        axios
-          .post(
-            "http://3.142.172.158:8000/api/addBlog",
-            imgData
-          )
-          .then((response) => {
-            if (response.data) {
-              dispatch(addBlog(response.data));
-            }
-          })
-          .catch((err) => {
-            console.log("Error in image upload");
-          });
+  useEffect(() => {
+    axios
+      .get("http://3.142.172.158:8000/api/getBlog")
+      .then((response) => {
+        if (response.data) {
+          dispatch(getBlog(response.data));
+        } else {
+          dispatch(getBlog([]));
         }
-          setTitle("");
-          setDescription("");
-          setImgUrl("");
-      };
+      })
+      .catch((err) => {
+        dispatch(getBlog([]));
+      });
+  }, [dispatch]);
 
-      const handleEdit = (index) => {
-        setEdit(index);
-        const getData = blogs.findIndex((item) => item._id === index);
-        setTitle(blogs[getData].title);
-        setDescription(blogs[getData].description);
-        setImgUrl(blogs[getData].imageUrl);
-        window.scrollTo(0, 0);
-      };
-      const delBlog =(index)=>{
-        axios
-          .delete(
-            "http://3.142.172.158:8000/api/deleteBlog/" +
-              index
-          )
-          .then((response) => {
-            if (response.data) {
-              dispatch(deleteBlog(index));
-            } 
-          })
-          .catch((err) => {
-            console.log("Error in image Deletion")
-          });
-      }
+  const submitDoc = (e) => {
+    e.preventDefault();
+    let imgData = new FormData();
+    imgData.append("imageUrl", imageUrl, imageUrl.name);
+    imgData.append("title", title);
+    imgData.append("description", description);
 
+    if (editIndex) {
+      axios
+        .post("http://3.142.172.158:8000/api/updateBlog/" + editIndex, imgData)
+        .then((response) => {
+          dispatch(updateBlog(response.data));
+          setEdit("");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      axios
+        .post("http://3.142.172.158:8000/api/addBlog", imgData)
+        .then((response) => {
+          if (response.data) {
+            dispatch(addBlog(response.data));
+          }
+        })
+        .catch((err) => {
+          console.log("Error in image upload");
+        });
+    }
+    setTitle("");
+    setDescription("");
+    setImgUrl("");
+  };
 
-    return (
-        <div className="user">
+  const handleEdit = (index) => {
+    setEdit(index);
+    const getData = blogs.findIndex((item) => item._id === index);
+    setTitle(blogs[getData].title);
+    setDescription(blogs[getData].description);
+    setImgUrl(blogs[getData].imageUrl);
+    window.scrollTo(0, 0);
+  };
+  const delBlog = (index) => {
+    axios
+      .delete("http://3.142.172.158:8000/api/deleteBlog/" + index)
+      .then((response) => {
+        if (response.data) {
+          dispatch(deleteBlog(index));
+        }
+      })
+      .catch((err) => {
+        console.log("Error in image Deletion");
+      });
+  };
+
+  return (
+    <div className="user">
       <div className="newUser">
-        <h1 className="newUserTitle">{editIndex ? "Update Blog" : "Add Blog"}</h1>
+        <h1 className="newUserTitle">
+          {editIndex ? "Update Blog" : "Add Blog"}
+        </h1>
         <form className="newUserForm">
           <div className="newUserItem">
             <label>Title</label>
@@ -155,52 +144,58 @@ const Blogs = () => {
           </div>
 
           <div className="newUserItem">
-            <button className="newUserButton" onClick={submitDoc}>
-            {editIndex ? "Update" : "Add New"}
+            <button className="newBlogButton" onClick={submitDoc}>
+              {editIndex ? "Update" : "Add New"}
             </button>
           </div>
         </form>
       </div>
-      {blogs &&
-        blogs.map((item) => (
-          <Card className={classes.root} key={item._id}>
-            <CardActionArea>
-              <CardMedia
-                className={classes.media}
-                image={
-                  "http://3.142.172.158:8000/" + item.imageUrl
-                }
-                title="Contemplative Reptile"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {item.title}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {item.description}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button
-                size="small"
-                color="primary"
-                onClick={() => delBlog(item._id)}
-              >
-                Delete
-              </Button>
-              <Button
-                size="small"
-                color="primary"
-                onClick={() => handleEdit(item._id)}
-              >
-                Edit
-              </Button>
-            </CardActions>
-          </Card>
-        ))}
+      <Grid container spacing={3}>
+        {blogs &&
+          blogs.map((item) => (
+            <Grid key={item._id} item xs={3} className={classes.root}>
+              <Card className={classes.root} key={item._id}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={"http://3.142.172.158:8000/" + item.imageUrl}
+                    title="Contemplative Reptile"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {item.title}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      {item.description}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <Button
+                    size="small"
+                    color="primary"
+                    onClick={() => delBlog(item._id)}
+                  >
+                    Delete
+                  </Button>
+                  <Button
+                    size="small"
+                    color="primary"
+                    onClick={() => handleEdit(item._id)}
+                  >
+                    Edit
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+      </Grid>
     </div>
-    )
-}
+  );
+};
 
-export default Blogs
+export default Blogs;

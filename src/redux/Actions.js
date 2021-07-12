@@ -1,116 +1,128 @@
 import * as types from "./actionTypes";
+import axios from "axios";
 
 export const getAppointments = (data) => ({
   type: types.GET_APPOINTMENTS,
-  payload:data
+  payload: data,
 });
+
+export const deleteAppointment = (index) => {
+  return (dispatch) => {
+    axios
+      .delete("http://3.142.172.158:8000/api/deleteAppointment/" + index)
+      .then((response) => {
+        dispatch({
+          type: types.DELETE_APPOINTMENTS,
+          payload: index,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
 
 export const getSliderImage = (data) => ({
   type: types.GET_SLIDERIMAGE,
-  payload:data
+  payload: data,
 });
 
 export const deleteSliderImage = (index) => ({
   type: types.DELETE_SLIDERIMAGE,
-  payload:index
+  payload: index,
 });
 
 export const addSliderImage = (data) => ({
   type: types.ADD_SLIDERIMAGE,
-  payload:data
+  payload: data,
 });
-
-
 
 export const getAboutInfo = (data) => ({
   type: types.GET_ABOUTINFO,
-  payload:data
+  payload: data,
 });
 export const addAboutInfo = (data) => ({
   type: types.ADD_ABOUTINFO,
-  payload:data
+  payload: data,
 });
 export const updateAboutInfo = (data) => ({
   type: types.UPDATE_ABOUTINFO,
-  payload:data
+  payload: data,
 });
 export const deleteAboutInfo = (id) => ({
   type: types.DELETE_ABOUTINFO,
-  payload:id
+  payload: id,
 });
-
 
 export const addDoctor = (data) => ({
   type: types.ADD_DOCTOR,
-  payload:data
+  payload: data,
 });
 export const getDoctorList = (data) => ({
   type: types.GET_DOCTORLIST,
-  payload:data
+  payload: data,
 });
 export const updateDoctor = (data) => ({
   type: types.UPDATE_DOCTOR,
-  payload:data
+  payload: data,
 });
 export const deleteDoctor = (id) => ({
   type: types.DELETE_DOCTOR,
-  payload:id
+  payload: id,
 });
-
 
 export const getServices = (data) => ({
   type: types.GET_SERVICES,
-  payload:data
+  payload: data,
 });
 export const addService = (data) => ({
   type: types.ADD_SERVICES,
-  payload:data
+  payload: data,
 });
 export const updateService = (data) => ({
   type: types.UPDATE_SERVICES,
-  payload:data
+  payload: data,
 });
 export const deleteService = (id) => ({
   type: types.DELETE_SERVICES,
-  payload:id
+  payload: id,
 });
 
 export const addGalleryImage = (data) => ({
   type: types.ADD_GAL_IMAGE,
-  payload:data
+  payload: data,
 });
 export const getGalleryImage = (data) => ({
   type: types.GET_GAL_IMAGE,
-  payload:data
+  payload: data,
 });
 export const deleteGalleryImage = (id) => ({
   type: types.DELETE_GAL_IMAGE,
-  payload:id
+  payload: id,
 });
 
 export const getBlog = (data) => ({
   type: types.GET_BLOG,
-  payload:data
+  payload: data,
 });
 export const addBlog = (data) => ({
   type: types.ADD_BLOG,
-  payload:data
+  payload: data,
 });
 export const deleteBlog = (id) => ({
   type: types.DELETE_BLOG,
-  payload:id
+  payload: id,
 });
 export const updateBlog = (data) => ({
   type: types.UPDATE_BLOG,
-  payload:data
+  payload: data,
 });
 
 export const getClinicData = (data) => ({
   type: types.GET_CLINIC_DATA,
-  payload:data
+  payload: data,
 });
 export const updateClinicData = (data) => ({
   type: types.UPDATE_CLINIC_DATA,
-  payload:data
+  payload: data,
 });
-

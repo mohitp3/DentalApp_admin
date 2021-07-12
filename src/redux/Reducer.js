@@ -19,6 +19,18 @@ const appointmentReducer = (state = initialState, action) => {
         ...state,
         appointments: payload,
       };
+    case types.DELETE_APPOINTMENTS:
+      const delAppointment = state.appointments.findIndex(
+        (item) => item._id === payload
+      );
+      const delAPP = [...state.appointments];
+      if (delAppointment > -1) {
+        delAPP.splice(delAppointment, 1);
+      }
+      return {
+        ...state,
+        appointments: delAPP
+      };
     case types.GET_SLIDERIMAGE:
       return {
         ...state,

@@ -51,15 +51,11 @@ const AboutInfo = () => {
     e.preventDefault();
     if (edit) {
       axios
-        .post(
-          "http://3.142.172.158:8000/api/updateAboutInfo/" +
-            edit,
-          {
-            title,
-            description,
-            icon,
-          }
-        )
+        .post("http://3.142.172.158:8000/api/updateAboutInfo/" + edit, {
+          title,
+          description,
+          icon,
+        })
         .then((response) => {
           dispatch(updateAboutInfo(response.data));
           setUpdate("");
@@ -100,10 +96,7 @@ const AboutInfo = () => {
   const handleDelete = (e, index) => {
     e.preventDefault();
     axios
-      .delete(
-        "http://3.142.172.158:8000/api/deleteAboutInfo/" +
-          index
-      )
+      .delete("http://3.142.172.158:8000/api/deleteAboutInfo/" + index)
       .then((response) => {
         dispatch(deleteAboutInfo(index));
       })
@@ -117,11 +110,11 @@ const AboutInfo = () => {
       <div className="userTitleContainer">
         <h1 className="userTitle">About Info</h1>
       </div>
-      <div className="userContainer">
-        {aboutInfo &&
-          aboutInfo.map((item, index) => (
-            <div key={item._id} className="userShow">
-              <div className="userShowBottom">
+      <div className="userContainer" >
+        <div className="userShow">
+          {aboutInfo &&
+            aboutInfo.map((item, index) => (
+              <div key={item._id} className="userShowBottom">
                 <span className="userShowTitle">{item.title}</span>
                 <div className="userShowInfo">
                   <PermIdentity className="userShowIcon" />
@@ -144,9 +137,8 @@ const AboutInfo = () => {
                   Delete
                 </button>
               </div>
-            </div>
-          ))}
-
+            ))}
+        </div>
         <div className="userUpdate">
           <span className="userUpdateTitle">{edit ? "Update" : "Add"}</span>
           <form className="userUpdateForm">
