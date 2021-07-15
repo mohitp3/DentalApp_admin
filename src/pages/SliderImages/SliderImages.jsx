@@ -1,4 +1,5 @@
 import React from "react";
+import { notify } from "../../utils/notify";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -19,7 +20,7 @@ import "./SliderImages.css";
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
-    flexGrow: 1
+    flexGrow: 1,
   },
   media: {
     height: 140,
@@ -51,28 +52,30 @@ const SliderImages = () => {
       .delete("http://3.142.172.158:8000/api/deleteSliderImage/" + index)
       .then((response) => {
         if (response.data) {
+          notify("success", "Successfully Deleted");
           dispatch(deleteSliderImage(index));
         }
       })
       .catch((err) => {
-        console.log("Error in image Deletion");
+        notify("error", "Error in Deleting");
       });
   };
 
   const uploadHandle = (e) => {
     let data = new FormData();
-    data.append("imgUrl", e.target.files[0]);
-    console.log(e.target.files[0]);
+    if (e.target.files[0]) {
+      data.append("imgUrl", e.target.files[0]);
+    }
     axios
       .post("http://3.142.172.158:8000/api/addSliderImage", data)
       .then((response) => {
-        //   console.log(data)
         if (response.data) {
+          notify("success", "Successfully Added");
           dispatch(addSliderImage(response.data));
         }
       })
       .catch((err) => {
-        console.log("Error in image upload");
+        notify("error", "Error in Adding");
       });
   };
   return (
@@ -85,32 +88,30 @@ const SliderImages = () => {
         </Button>
       </div>
       <Grid container spacing={3}>
-
-      
-      {sliderImage &&
-        sliderImage.map((item, index) => (
-          <Grid key={item._id} item xs={4} className={classes.root}>
-            <Card  className={classes.root}>
-              <CardActionArea>
-                <CardMedia
-                  className={classes.media}
-                  image={"http://3.142.172.158:8000/" + item.imgUrl}
-                  title="Contemplative Reptile"
-                />
-              </CardActionArea>
-              <CardActions>
-                <Button
-                  size="small"
-                  color="primary"
-                  onClick={() => deleteSlider(item._id)}
-                >
-                  Delete
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-        </Grid>
+        {sliderImage &&
+          sliderImage.map((item, index) => (
+            <Grid key={item._id} item xs={4} className={classes.root}>
+              <Card className={classes.root}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={"http://3.142.172.158:8000/" + item.imgUrl}
+                    title="Contemplative Reptile"
+                  />
+                </CardActionArea>
+                <CardActions>
+                  <Button
+                    size="small"
+                    color="primary"
+                    onClick={() => deleteSlider(item._id)}
+                  >
+                    Delete
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+      </Grid>
     </div>
   );
 };

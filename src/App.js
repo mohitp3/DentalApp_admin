@@ -9,6 +9,8 @@ import Doctors from "./pages/Doctors/Doctors";
 import Services from "./pages/Services/Services";
 import Gallery from "./pages/Gallery/Gallery";
 import Blogs from "./pages/Blogs/Blogs";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import ClinicData from "./pages/ClinicData/ClinicData";
 
 // import User from "./pages/user/User";
@@ -48,23 +50,20 @@ function App() {
           <Route exact path="/blogs">
             <Blogs />
           </Route>
-          {/* <Route path="/user/:userId">
-            <User />
-          </Route>
-          <Route path="/newUser">
-            <NewUser />
-          </Route>
-          <Route path="/products">
-            <ProductList />
-          </Route>
-          <Route path="/product/:productId">
-            <Product />
-          </Route>
-          <Route path="/newproduct">
-            <NewProduct />
-          </Route>  */}
+          
         </Switch>
       </div>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={2000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover
+      />
     </Router>
   );
 }

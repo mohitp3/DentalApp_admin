@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { notify } from "../../utils/notify";
 import "./Doctors.css";
 import { DeleteOutline } from "@material-ui/icons";
 import EditIcon from "@material-ui/icons/Edit";
@@ -62,11 +62,12 @@ const Doctors = () => {
           }
         )
         .then((response) => {
+          notify("success","Successfully Updated")
           dispatch(updateDoctor(response.data));
           setEdit("");
         })
         .catch((err) => {
-          console.log(err);
+          notify("error","Error in Updating")
         });
     } else {
       axios
@@ -78,11 +79,12 @@ const Doctors = () => {
           speciality: dataSpec,
         })
         .then((response) => {
+          notify("success","Successfully Added")
           dispatch(addDoctor(response.data));
           window.scrollTo(0, document.body.scrollHeight);
         })
         .catch((err) => {
-          console.log(err);
+          notify("error","Error in Adding")
         });
     }
     setabTitle("");
@@ -93,9 +95,7 @@ const Doctors = () => {
   };
   const handleChange = (e) => {
     e.preventDefault();
-    // console.log(e);
     var options = e.target.options;
-    console.log(options[0].value)
     var value = [];
     for (var i = 0, l = options.length; i < l; i++) {
       if (options[i].selected) {
@@ -143,10 +143,11 @@ const Doctors = () => {
           index
       )
       .then((response) => {
+        notify("success","Successfully Deleted")
         dispatch(deleteDoctor(index));
       })
       .catch((err) => {
-        console.log(err);
+        notify("error","Error in Deleting")
       });
   };
 

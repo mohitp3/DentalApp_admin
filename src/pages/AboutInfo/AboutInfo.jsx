@@ -1,13 +1,8 @@
 import React from "react";
 import {
   CalendarToday,
-  LocationSearching,
-  MailOutline,
-  PermIdentity,
-  PhoneAndroid,
-  Publish,
+  PermIdentity
 } from "@material-ui/icons";
-//   import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,10 +12,12 @@ import {
   updateAboutInfo,
   deleteAboutInfo,
 } from "../../redux/Actions";
-
+import { notify } from "../../utils/notify";
 import "./AboutInfo.css";
 
 const AboutInfo = () => {
+
+
   /**
    * state handle
    */
@@ -57,11 +54,12 @@ const AboutInfo = () => {
           icon,
         })
         .then((response) => {
+          notify("success","Successfully Updated")
           dispatch(updateAboutInfo(response.data));
           setUpdate("");
         })
         .catch((err) => {
-          console.log(err);
+          notify("error","Error in Updating")
         });
     } else {
       axios
@@ -71,10 +69,11 @@ const AboutInfo = () => {
           icon,
         })
         .then((response) => {
+          notify("success","Successfully Added")
           dispatch(addAboutInfo(response.data));
         })
         .catch((err) => {
-          console.log(err);
+          notify("error","Error in Adding")
         });
     }
 
@@ -98,10 +97,11 @@ const AboutInfo = () => {
     axios
       .delete("http://3.142.172.158:8000/api/deleteAboutInfo/" + index)
       .then((response) => {
+        notify("success","Successfully Deleted")
         dispatch(deleteAboutInfo(index));
       })
       .catch((err) => {
-        console.log(err);
+        notify("error","Error in Updating")
       });
   };
 

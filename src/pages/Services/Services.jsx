@@ -1,11 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { notify } from "../../utils/notify";
 import "./Services.css";
 import { DeleteOutline } from "@material-ui/icons";
 import EditIcon from "@material-ui/icons/Edit";
 import { useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
-import { getServices, addService ,updateService,deleteService } from "../../redux/Actions";
+import {
+  getServices,
+  addService,
+  updateService,
+  deleteService,
+} from "../../redux/Actions";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
@@ -47,21 +52,18 @@ const Services = () => {
 
     if (editIndex) {
       axios
-        .post(
-          "http://3.142.172.158:8000/api/updateService/" +
-            editIndex,
-          {
-            title,
-            description,
-            icon,
-          }
-        )
+        .post("http://3.142.172.158:8000/api/updateService/" + editIndex, {
+          title,
+          description,
+          icon,
+        })
         .then((response) => {
+          notify("success", "Successfully Updated");
           dispatch(updateService(response.data));
           setEdit("");
         })
         .catch((err) => {
-          console.log(err);
+          notify("error", "Error in Updating");
         });
     } else {
       axios
@@ -71,11 +73,12 @@ const Services = () => {
           icon,
         })
         .then((response) => {
+          notify("success", "Successfully Added");
           dispatch(addService(response.data));
           window.scrollTo(0, document.body.scrollHeight);
         })
         .catch((err) => {
-          console.log(err);
+          notify("error", "Error in Adding");
         });
     }
     setTitle("");
@@ -86,15 +89,13 @@ const Services = () => {
   const handleDelete = (e, index) => {
     e.preventDefault();
     axios
-      .delete(
-        "http://3.142.172.158:8000/api/deleteService/" +
-          index
-      )
+      .delete("http://3.142.172.158:8000/api/deleteService/" + index)
       .then((response) => {
+        notify("success", "Successfully Deleted");
         dispatch(deleteService(index));
       })
       .catch((err) => {
-        console.log(err);
+        notify("error", "Error in Deleting");
       });
   };
 

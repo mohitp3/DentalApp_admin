@@ -6,7 +6,7 @@ export const getAppointments = (data) => ({
   payload: data,
 });
 
-export const deleteAppointment = (index) => {
+export const deleteAppointment = (index,notify) => {
   return (dispatch) => {
     axios
       .delete("http://3.142.172.158:8000/api/deleteAppointment/" + index)
@@ -15,9 +15,10 @@ export const deleteAppointment = (index) => {
           type: types.DELETE_APPOINTMENTS,
           payload: index,
         });
+        notify("success", "Deleted Successfully")
       })
       .catch((err) => {
-        console.log(err);
+        notify("error", "Error in Deleting")
       });
   };
 };
@@ -126,3 +127,17 @@ export const updateClinicData = (data) => ({
   type: types.UPDATE_CLINIC_DATA,
   payload: data,
 });
+
+
+export const getAppointmentinit = (index) => {
+  return (dispatch) => {
+    axios
+      .get("http://3.142.172.158:8000/api/getAppointments")
+      .then((response) => {
+        dispatch(getAppointments(response.data));
+      })
+      .catch((err) => {
+        dispatch(getAppointments([]));
+      });
+  };
+};

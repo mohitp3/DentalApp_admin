@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import { notify } from "../../utils/notify";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -51,7 +51,10 @@ const Blogs = () => {
   const submitDoc = (e) => {
     e.preventDefault();
     let imgData = new FormData();
-    imgData.append("imageUrl", imageUrl, imageUrl.name);
+    if (imageUrl) {
+      imgData.append("imageUrl", imageUrl, imageUrl.name);
+    }
+
     imgData.append("title", title);
     imgData.append("description", description);
 
@@ -59,22 +62,26 @@ const Blogs = () => {
       axios
         .post("http://3.142.172.158:8000/api/updateBlog/" + editIndex, imgData)
         .then((response) => {
+          notify("success","Successfully Updated")
+
           dispatch(updateBlog(response.data));
           setEdit("");
         })
         .catch((err) => {
-          console.log(err);
+          notify("error","Error in Updating")
+
         });
     } else {
       axios
         .post("http://3.142.172.158:8000/api/addBlog", imgData)
         .then((response) => {
           if (response.data) {
+            notify("success","Successfully Added")
             dispatch(addBlog(response.data));
           }
         })
         .catch((err) => {
-          console.log("Error in image upload");
+          notify("error","Error in Adding")
         });
     }
     setTitle("");
@@ -95,11 +102,12 @@ const Blogs = () => {
       .delete("http://3.142.172.158:8000/api/deleteBlog/" + index)
       .then((response) => {
         if (response.data) {
+          notify("success","Successfully Deleted")
           dispatch(deleteBlog(index));
         }
       })
       .catch((err) => {
-        console.log("Error in image Deletion");
+        notify("error","Error in Deleting")
       });
   };
 

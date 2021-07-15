@@ -1,35 +1,22 @@
 import { useEffect } from "react";
 import "./home.css";
-import axios from "axios";
 import { Button } from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
 import { DeleteOutline } from "@material-ui/icons";
-
-import { useDispatch,useSelector } from "react-redux";
-import { getAppointments , deleteAppointment } from "../../redux/Actions";
+import { useDispatch, useSelector } from "react-redux";
+import { getAppointmentinit, deleteAppointment } from "../../redux/Actions";
+import { notify } from "../../utils/notify";
 
 export default function Home() {
   const dispatch = useDispatch();
   useEffect(() => {
-    axios
-      .get("http://3.142.172.158:8000/api/getAppointments")
-      .then((response) => {
-        if (response.data) {
-          dispatch(getAppointments(response.data));
-        } else {
-          dispatch(getAppointments([]));
-        }
-      })
-      .catch((err) => {
-        dispatch(getAppointments([]));
-      });
+    dispatch(getAppointmentinit());
   }, [dispatch]);
 
   const { appointments } = useSelector((state) => state.data);
 
   const handleDelete = (e, index) => {
     e.preventDefault();
-    dispatch(deleteAppointment(index));
+    dispatch(deleteAppointment(index, notify));
   };
   return (
     <div className="user">
@@ -71,7 +58,6 @@ export default function Home() {
           </tbody>
         </table>
       </div>
-      
     </div>
   );
 }

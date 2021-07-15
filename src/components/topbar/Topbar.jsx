@@ -1,7 +1,5 @@
 import React from "react";
 import "./topbar.css";
-import { NotificationsNone, Language, Settings } from "@material-ui/icons";
-
 export default function Topbar() {
   return (
     <div className="topbar">
@@ -9,19 +7,8 @@ export default function Topbar() {
         <div className="topLeft">
           <span className="logo">Dental APP Admin</span>
         </div>
-        <div className="topRight">
-          {/* <div className="topbarIconContainer">
-            <NotificationsNone />
-            <span className="topIconBadge">2</span>
-          </div>
-          <div className="topbarIconContainer">
-            <Language />
-            <span className="topIconBadge">2</span>
-          </div>
-          <div className="topbarIconContainer">
-            <Settings />
-          </div> */}
-          <img src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" className="topAvatar" />
+        <div className="topRight">          
+          <img src="https://d338t8kmirgyke.cloudfront.net/icons/icon_pngs/000/004/088/original/user.png" alt="" className="topAvatar" />
         </div>
       </div>
     </div>

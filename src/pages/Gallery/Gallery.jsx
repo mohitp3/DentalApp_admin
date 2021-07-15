@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import { notify } from "../../utils/notify";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -12,7 +12,11 @@ import Grid from "@material-ui/core/Grid";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import "./Gallery.css";
-import { addGalleryImage, getGalleryImage ,deleteGalleryImage } from "../../redux/Actions";
+import {
+  addGalleryImage,
+  getGalleryImage,
+  deleteGalleryImage,
+} from "../../redux/Actions";
 
 const useStyles = makeStyles({
   root: {
@@ -49,42 +53,40 @@ const Gallery = () => {
   const submitDoc = (e) => {
     e.preventDefault();
     let imgData = new FormData();
-    imgData.append("imgUrl", imgUrl, imgUrl.name);
+    if (imgUrl) {
+      imgData.append("imgUrl", imgUrl, imgUrl.name);
+    }
     imgData.append("title", title);
     imgData.append("category", category);
     axios
-      .post(
-        "http://3.142.172.158:8000/api/addGalleryImage",
-        imgData
-      )
+      .post("http://3.142.172.158:8000/api/addGalleryImage", imgData)
       .then((response) => {
         if (response.data) {
+          notify("success","Successfully Uploaded the Image")
           dispatch(addGalleryImage(response.data));
         }
       })
       .catch((err) => {
-        console.log("Error in image upload");
+        notify("error","Error in Adding Image")
       });
-      setTitle("");
-      setCategory("");
-      setImgUrl("");
+    setTitle("");
+    setCategory("");
+    setImgUrl("");
   };
 
-  const deleteImg =(index)=>{
+  const deleteImg = (index) => {
     axios
-      .delete(
-        "http://3.142.172.158:8000/api/deleteGalleryImage/" +
-          index
-      )
+      .delete("http://3.142.172.158:8000/api/deleteGalleryImage/" + index)
       .then((response) => {
         if (response.data) {
+          notify("success", "Successfully Deleted");
           dispatch(deleteGalleryImage(index));
-        } 
+        }
       })
       .catch((err) => {
-        console.log("Error in image Deletion")
+        notify("error", "Error in Deleting");
       });
-  }
+  };
 
   return (
     <div className="user">
@@ -132,42 +134,42 @@ const Gallery = () => {
         </form>
       </div>
       <Grid container spacing={3}>
-
-      {gallery &&
-        gallery.map((item) => (
-          <Grid key={item._id} item xs={3} className={classes.root}>
-            <Card className={classes.root} key={item._id}>
-            <CardActionArea>
-              <CardMedia
-                className={classes.media}
-                image={
-                  "http://3.142.172.158:8000/" + item.imgUrl
-                }
-                title="Contemplative Reptile"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {item.title}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {item.category}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button
-                size="small"
-                color="primary"
-                onClick={() => deleteImg(item._id)}
-              >
-                Delete
-              </Button>
-            </CardActions>
-          </Card>
-          </Grid>
-          
-        ))}
-        </Grid>
+        {gallery &&
+          gallery.map((item) => (
+            <Grid key={item._id} item xs={3} className={classes.root}>
+              <Card className={classes.root} key={item._id}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={"http://3.142.172.158:8000/" + item.imgUrl}
+                    title="Contemplative Reptile"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {item.title}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      {item.category}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <Button
+                    size="small"
+                    color="primary"
+                    onClick={() => deleteImg(item._id)}
+                  >
+                    Delete
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+      </Grid>
     </div>
   );
 };
