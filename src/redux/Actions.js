@@ -9,7 +9,7 @@ export const getAppointments = (data) => ({
 export const deleteAppointment = (index,notify) => {
   return (dispatch) => {
     axios
-      .delete("http://3.142.172.158:8000/api/deleteAppointment/" + index)
+      .delete(process.env.REACT_APP_PROD_URL + "api/deleteAppointment/" + index)
       .then((response) => {
         dispatch({
           type: types.DELETE_APPOINTMENTS,
@@ -129,10 +129,10 @@ export const updateClinicData = (data) => ({
 });
 
 
-export const getAppointmentinit = (index) => {
+export const getAppointmentinit = (page=1,limit=5) => {
   return (dispatch) => {
     axios
-      .get("http://3.142.172.158:8000/api/getAppointments")
+      .get(process.env.REACT_APP_PROD_URL + "api/getAppointments?page="+page+"&limit="+limit)
       .then((response) => {
         dispatch(getAppointments(response.data));
       })

@@ -51,7 +51,7 @@ const Doctors = () => {
     if (editIndex) {
       axios
         .post(
-          "http://3.142.172.158:8000/api/updateDoctor/" +
+          process.env.REACT_APP_PROD_URL + "api/updateDoctor/" +
             editIndex,
           {
             name,
@@ -71,7 +71,7 @@ const Doctors = () => {
         });
     } else {
       axios
-        .post("http://3.142.172.158:8000/api/addDoctor", {
+        .post(process.env.REACT_APP_PROD_URL + "api/addDoctor", {
           name,
           expertism,
           aboutTitle,
@@ -111,7 +111,7 @@ const Doctors = () => {
 
   useEffect(() => {
     axios
-      .get("http://3.142.172.158:8000/api/getDoctorList")
+      .get(process.env.REACT_APP_PROD_URL + "api/getDoctorList")
       .then((response) => {
         if (response.data) {
           dispatch(getDoctorList(response.data));
@@ -139,7 +139,7 @@ const Doctors = () => {
     e.preventDefault();
     axios
       .delete(
-        "http://3.142.172.158:8000/api/deleteDoctor/" +
+        process.env.REACT_APP_PROD_URL + "api/deleteDoctor/" +
           index
       )
       .then((response) => {

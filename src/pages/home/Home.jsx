@@ -1,22 +1,41 @@
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import "./home.css";
 import { Button } from "@material-ui/core";
 import { DeleteOutline } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getAppointmentinit, deleteAppointment } from "../../redux/Actions";
+import { makeStyles } from '@material-ui/core/styles';
+import Pagination from '@material-ui/lab/Pagination';
 import { notify } from "../../utils/notify";
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+  },
+}));
+
 export default function Home() {
+  const classes = useStyles();
+  const [page,setPage] = useState();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAppointmentinit());
   }, [dispatch]);
 
-  const { appointments } = useSelector((state) => state.data);
+  const { appointments, totalAppointments } = useSelector((state) => state.data);
 
   const handleDelete = (e, index) => {
     e.preventDefault();
     dispatch(deleteAppointment(index, notify));
+  };
+  useEffect(() => {
+    dispatch(getAppointmentinit(page));
+    
+  }, [page])
+  const handlePageChange = (event, value) => {
+    setPage(value)
   };
   return (
     <div className="user">
@@ -58,6 +77,9 @@ export default function Home() {
           </tbody>
         </table>
       </div>
+      <div className={classes.root}>
+      <Pagination count={Math.ceil(totalAppointments/5)} onChange={handlePageChange} />
+    </div>
     </div>
   );
 }

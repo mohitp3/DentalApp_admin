@@ -15,7 +15,7 @@ const ClinicData = () => {
 
   useEffect(() => {
     axios
-      .get("http://3.142.172.158:8000/api/getClinicData")
+      .get(process.env.REACT_APP_PROD_URL + "api/getClinicData")
       .then((response) => {
         if (response.data) {
           dispatch(getClinicData(response.data));
@@ -36,7 +36,7 @@ const ClinicData = () => {
   const submitDoc = (e, index) => {
     e.preventDefault();
     axios
-      .post("http://3.142.172.158:8000/api/updateClinicData/" + index, {
+      .post(process.env.REACT_APP_PROD_URL + "api/updateClinicData/" + index, {
         dentists,
         machines,
         rooms,

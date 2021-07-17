@@ -34,7 +34,7 @@ const Services = () => {
 
   useEffect(() => {
     axios
-      .get("http://3.142.172.158:8000/api/getService")
+      .get(process.env.REACT_APP_PROD_URL + "api/getService")
       .then((response) => {
         if (response.data) {
           dispatch(getServices(response.data));
@@ -52,7 +52,7 @@ const Services = () => {
 
     if (editIndex) {
       axios
-        .post("http://3.142.172.158:8000/api/updateService/" + editIndex, {
+        .post(process.env.REACT_APP_PROD_URL + "api/updateService/" + editIndex, {
           title,
           description,
           icon,
@@ -67,7 +67,7 @@ const Services = () => {
         });
     } else {
       axios
-        .post("http://3.142.172.158:8000/api/addService", {
+        .post(process.env.REACT_APP_PROD_URL + "api/addService", {
           title,
           description,
           icon,
@@ -89,7 +89,7 @@ const Services = () => {
   const handleDelete = (e, index) => {
     e.preventDefault();
     axios
-      .delete("http://3.142.172.158:8000/api/deleteService/" + index)
+      .delete(process.env.REACT_APP_PROD_URL + "api/deleteService/" + index)
       .then((response) => {
         notify("success", "Successfully Deleted");
         dispatch(deleteService(index));

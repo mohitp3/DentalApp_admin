@@ -8,6 +8,7 @@ const initialState = {
   services: [],
   gallery: [],
   blogs: [],
+  totalAppointments:0,
   clinicData: [{ rooms: 0, dentists: 0, machines: 0, patients: 0, _id: 0 }],
 };
 
@@ -17,7 +18,8 @@ const appointmentReducer = (state = initialState, action) => {
     case types.GET_APPOINTMENTS:
       return {
         ...state,
-        appointments: payload,
+        totalAppointments : payload.total,
+        appointments: payload.appointments,
       };
     case types.DELETE_APPOINTMENTS:
       const delAppointment = state.appointments.findIndex(

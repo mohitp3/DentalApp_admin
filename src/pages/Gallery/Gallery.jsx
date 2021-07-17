@@ -37,7 +37,7 @@ const Gallery = () => {
 
   useEffect(() => {
     axios
-      .get("http://3.142.172.158:8000/api/getGalleryImage")
+      .get(process.env.REACT_APP_PROD_URL + "api/getGalleryImage")
       .then((response) => {
         if (response.data) {
           dispatch(getGalleryImage(response.data));
@@ -59,7 +59,7 @@ const Gallery = () => {
     imgData.append("title", title);
     imgData.append("category", category);
     axios
-      .post("http://3.142.172.158:8000/api/addGalleryImage", imgData)
+      .post(process.env.REACT_APP_PROD_URL + "api/addGalleryImage", imgData)
       .then((response) => {
         if (response.data) {
           notify("success","Successfully Uploaded the Image")
@@ -76,7 +76,7 @@ const Gallery = () => {
 
   const deleteImg = (index) => {
     axios
-      .delete("http://3.142.172.158:8000/api/deleteGalleryImage/" + index)
+      .delete(process.env.REACT_APP_PROD_URL + "api/deleteGalleryImage/" + index)
       .then((response) => {
         if (response.data) {
           notify("success", "Successfully Deleted");
@@ -141,7 +141,7 @@ const Gallery = () => {
                 <CardActionArea>
                   <CardMedia
                     className={classes.media}
-                    image={"http://3.142.172.158:8000/" + item.imgUrl}
+                    image={process.env.REACT_APP_PROD_URL + "" + item.imgUrl}
                     title="Contemplative Reptile"
                   />
                   <CardContent>

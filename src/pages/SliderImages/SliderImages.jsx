@@ -32,7 +32,7 @@ const SliderImages = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     axios
-      .get("http://3.142.172.158:8000/api/getSliderImage")
+      .get(process.env.REACT_APP_PROD_URL + "api/getSliderImage")
       .then((response) => {
         if (response.data) {
           dispatch(getSliderImage(response.data));
@@ -49,7 +49,7 @@ const SliderImages = () => {
 
   const deleteSlider = (index) => {
     axios
-      .delete("http://3.142.172.158:8000/api/deleteSliderImage/" + index)
+      .delete(process.env.REACT_APP_PROD_URL + "api/deleteSliderImage/" + index)
       .then((response) => {
         if (response.data) {
           notify("success", "Successfully Deleted");
@@ -67,7 +67,7 @@ const SliderImages = () => {
       data.append("imgUrl", e.target.files[0]);
     }
     axios
-      .post("http://3.142.172.158:8000/api/addSliderImage", data)
+      .post(process.env.REACT_APP_PROD_URL + "api/addSliderImage", data)
       .then((response) => {
         if (response.data) {
           notify("success", "Successfully Added");
@@ -95,7 +95,7 @@ const SliderImages = () => {
                 <CardActionArea>
                   <CardMedia
                     className={classes.media}
-                    image={"http://3.142.172.158:8000/" + item.imgUrl}
+                    image={process.env.REACT_APP_PROD_URL + "" + item.imgUrl}
                     title="Contemplative Reptile"
                   />
                 </CardActionArea>

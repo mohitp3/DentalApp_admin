@@ -35,7 +35,7 @@ const Blogs = () => {
 
   useEffect(() => {
     axios
-      .get("http://3.142.172.158:8000/api/getBlog")
+      .get(process.env.REACT_APP_PROD_URL + "api/getBlog")
       .then((response) => {
         if (response.data) {
           dispatch(getBlog(response.data));
@@ -60,7 +60,7 @@ const Blogs = () => {
 
     if (editIndex) {
       axios
-        .post("http://3.142.172.158:8000/api/updateBlog/" + editIndex, imgData)
+        .post(process.env.REACT_APP_PROD_URL + "api/updateBlog/" + editIndex, imgData)
         .then((response) => {
           notify("success","Successfully Updated")
 
@@ -73,7 +73,7 @@ const Blogs = () => {
         });
     } else {
       axios
-        .post("http://3.142.172.158:8000/api/addBlog", imgData)
+        .post(process.env.REACT_APP_PROD_URL + "api/addBlog", imgData)
         .then((response) => {
           if (response.data) {
             notify("success","Successfully Added")
@@ -99,7 +99,7 @@ const Blogs = () => {
   };
   const delBlog = (index) => {
     axios
-      .delete("http://3.142.172.158:8000/api/deleteBlog/" + index)
+      .delete(process.env.REACT_APP_PROD_URL + "api/deleteBlog/" + index)
       .then((response) => {
         if (response.data) {
           notify("success","Successfully Deleted")
@@ -166,7 +166,7 @@ const Blogs = () => {
                 <CardActionArea>
                   <CardMedia
                     className={classes.media}
-                    image={"http://3.142.172.158:8000/" + item.imageUrl}
+                    image={process.env.REACT_APP_PROD_URL + "" + item.imageUrl}
                     title="Contemplative Reptile"
                   />
                   <CardContent>

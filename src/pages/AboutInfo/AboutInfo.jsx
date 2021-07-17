@@ -29,7 +29,7 @@ const AboutInfo = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     axios
-      .get("http://3.142.172.158:8000/api/getAboutInfo")
+      .get(process.env.REACT_APP_PROD_URL + "api/getAboutInfo")
       .then((response) => {
         if (response.data) {
           dispatch(getAboutInfo(response.data));
@@ -48,7 +48,7 @@ const AboutInfo = () => {
     e.preventDefault();
     if (edit) {
       axios
-        .post("http://3.142.172.158:8000/api/updateAboutInfo/" + edit, {
+        .post(process.env.REACT_APP_PROD_URL + "api/updateAboutInfo/" + edit, {
           title,
           description,
           icon,
@@ -63,7 +63,7 @@ const AboutInfo = () => {
         });
     } else {
       axios
-        .post("http://3.142.172.158:8000/api/addAboutInfo", {
+        .post(process.env.REACT_APP_PROD_URL + "api/addAboutInfo", {
           title,
           description,
           icon,
@@ -95,7 +95,7 @@ const AboutInfo = () => {
   const handleDelete = (e, index) => {
     e.preventDefault();
     axios
-      .delete("http://3.142.172.158:8000/api/deleteAboutInfo/" + index)
+      .delete(process.env.REACT_APP_PROD_URL + "api/deleteAboutInfo/" + index)
       .then((response) => {
         notify("success","Successfully Deleted")
         dispatch(deleteAboutInfo(index));
