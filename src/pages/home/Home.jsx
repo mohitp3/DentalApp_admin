@@ -6,7 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAppointmentinit, deleteAppointment } from "../../redux/Actions";
 import { makeStyles } from '@material-ui/core/styles';
 import Pagination from '@material-ui/lab/Pagination';
-import { notify } from "../../utils/notify";
+import { notify , confirmation } from "../../utils/notify";
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home() {
   const classes = useStyles();
-  const [page,setPage] = useState();
+  const [page,setPage] = useState(1);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAppointmentinit());
@@ -28,7 +30,19 @@ export default function Home() {
 
   const handleDelete = (e, index) => {
     e.preventDefault();
-    dispatch(deleteAppointment(index, notify));
+    confirmation({
+      title: "Are you sure ? ",
+      message: "Please Confirm",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => dispatch(deleteAppointment(index, notify)),
+        },
+        {
+          label: "No, Cancel",
+        },
+      ],
+    });
   };
   useEffect(() => {
     dispatch(getAppointmentinit(page));
@@ -56,11 +70,11 @@ export default function Home() {
             {appointments &&
               appointments.map((item, index) => (
                 <tr className="widgetLgTr" key={item._id}>
-                  <td className="widgetLgName">{index + 1}</td>
+                  <td className="widgetLgName">{index + 1 + (page-1)*5 }</td>
                   <td className="widgetLgName">{item.name}</td>
                   <td className="widgetLgName">{item.email}</td>
                   <td className="widgetLgName">{item.message}</td>
-                  <td className="widgetLgName">{item.appointmentDate}</td>
+                  <td className="widgetLgName">{new Date(item.appointmentDate).toGMTString()}</td>
                   <td>
                     <Button
                       variant="contained"

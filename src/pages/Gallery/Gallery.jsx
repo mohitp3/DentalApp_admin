@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { notify } from "../../utils/notify";
+import { notify , confirmation } from "../../utils/notify";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -62,12 +62,12 @@ const Gallery = () => {
       .post(process.env.REACT_APP_PROD_URL + "api/addGalleryImage", imgData)
       .then((response) => {
         if (response.data) {
-          notify("success","Successfully Uploaded the Image")
+          notify("success", "Successfully Uploaded the Image");
           dispatch(addGalleryImage(response.data));
         }
       })
       .catch((err) => {
-        notify("error","Error in Adding Image")
+        notify("error", "Error in Adding Image");
       });
     setTitle("");
     setCategory("");
@@ -75,17 +75,34 @@ const Gallery = () => {
   };
 
   const deleteImg = (index) => {
-    axios
-      .delete(process.env.REACT_APP_PROD_URL + "api/deleteGalleryImage/" + index)
-      .then((response) => {
-        if (response.data) {
-          notify("success", "Successfully Deleted");
-          dispatch(deleteGalleryImage(index));
-        }
-      })
-      .catch((err) => {
-        notify("error", "Error in Deleting");
-      });
+    confirmation({
+      title: "Are you sure ? ",
+      message: "Please Confirm",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () =>
+            axios
+              .delete(
+                process.env.REACT_APP_PROD_URL +
+                  "api/deleteGalleryImage/" +
+                  index
+              )
+              .then((response) => {
+                if (response.data) {
+                  notify("success", "Successfully Deleted");
+                  dispatch(deleteGalleryImage(index));
+                }
+              })
+              .catch((err) => {
+                notify("error", "Error in Deleting");
+              }),
+        },
+        {
+          label: "No, Cancel",
+        },
+      ],
+    });
   };
 
   return (

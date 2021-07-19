@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  CalendarToday,
-  PermIdentity
-} from "@material-ui/icons";
+import { CalendarToday, PermIdentity } from "@material-ui/icons";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,12 +9,10 @@ import {
   updateAboutInfo,
   deleteAboutInfo,
 } from "../../redux/Actions";
-import { notify } from "../../utils/notify";
+import { notify , confirmation} from "../../utils/notify";
 import "./AboutInfo.css";
 
 const AboutInfo = () => {
-
-
   /**
    * state handle
    */
@@ -54,12 +49,12 @@ const AboutInfo = () => {
           icon,
         })
         .then((response) => {
-          notify("success","Successfully Updated")
+          notify("success", "Successfully Updated");
           dispatch(updateAboutInfo(response.data));
           setUpdate("");
         })
         .catch((err) => {
-          notify("error","Error in Updating")
+          notify("error", "Error in Updating");
         });
     } else {
       axios
@@ -69,11 +64,11 @@ const AboutInfo = () => {
           icon,
         })
         .then((response) => {
-          notify("success","Successfully Added")
+          notify("success", "Successfully Added");
           dispatch(addAboutInfo(response.data));
         })
         .catch((err) => {
-          notify("error","Error in Adding")
+          notify("error", "Error in Adding");
         });
     }
 
@@ -94,15 +89,30 @@ const AboutInfo = () => {
 
   const handleDelete = (e, index) => {
     e.preventDefault();
-    axios
-      .delete(process.env.REACT_APP_PROD_URL + "api/deleteAboutInfo/" + index)
-      .then((response) => {
-        notify("success","Successfully Deleted")
-        dispatch(deleteAboutInfo(index));
-      })
-      .catch((err) => {
-        notify("error","Error in Updating")
-      });
+    confirmation({
+      title: "Are you sure ? ",
+      message: "Please Confirm",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () =>
+            axios
+              .delete(
+                process.env.REACT_APP_PROD_URL + "api/deleteAboutInfo/" + index
+              )
+              .then((response) => {
+                notify("success", "Successfully Deleted");
+                dispatch(deleteAboutInfo(index));
+              })
+              .catch((err) => {
+                notify("error", "Error in Updating");
+              }),
+        },
+        {
+          label: "No, Cancel",
+        },
+      ],
+    });
   };
 
   return (
@@ -110,7 +120,7 @@ const AboutInfo = () => {
       <div className="userTitleContainer">
         <h1 className="userTitle">About Info</h1>
       </div>
-      <div className="userContainer" >
+      <div className="userContainer">
         <div className="userShow">
           {aboutInfo &&
             aboutInfo.map((item, index) => (

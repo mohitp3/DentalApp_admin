@@ -1,5 +1,4 @@
 import React from "react";
-import { notify } from "../../utils/notify";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -8,6 +7,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { useEffect } from "react";
+import { notify, confirmation } from "../../utils/notify";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -48,17 +48,34 @@ const SliderImages = () => {
   const { sliderImage } = useSelector((state) => state.data);
 
   const deleteSlider = (index) => {
-    axios
-      .delete(process.env.REACT_APP_PROD_URL + "api/deleteSliderImage/" + index)
-      .then((response) => {
-        if (response.data) {
-          notify("success", "Successfully Deleted");
-          dispatch(deleteSliderImage(index));
-        }
-      })
-      .catch((err) => {
-        notify("error", "Error in Deleting");
-      });
+    confirmation({
+      title: "Are you sure ? ",
+      message: "Please Confirm",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () =>
+            axios
+              .delete(
+                process.env.REACT_APP_PROD_URL +
+                  "api/deleteSliderImage/" +
+                  index
+              )
+              .then((response) => {
+                if (response.data) {
+                  notify("success", "Successfully Deleted");
+                  dispatch(deleteSliderImage(index));
+                }
+              })
+              .catch((err) => {
+                notify("error", "Error in Deleting");
+              }),
+        },
+        {
+          label: "No, Cancel",
+        },
+      ],
+    });
   };
 
   const uploadHandle = (e) => {

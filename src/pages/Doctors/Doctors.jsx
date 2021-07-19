@@ -1,5 +1,5 @@
 import React from "react";
-import { notify } from "../../utils/notify";
+import { notify , confirmation } from "../../utils/notify";
 import "./Doctors.css";
 import { DeleteOutline } from "@material-ui/icons";
 import EditIcon from "@material-ui/icons/Edit";
@@ -137,18 +137,31 @@ const Doctors = () => {
   };
   const handleDelete = (e, index) => {
     e.preventDefault();
-    axios
-      .delete(
-        process.env.REACT_APP_PROD_URL + "api/deleteDoctor/" +
-          index
-      )
-      .then((response) => {
-        notify("success","Successfully Deleted")
-        dispatch(deleteDoctor(index));
-      })
-      .catch((err) => {
-        notify("error","Error in Deleting")
-      });
+    confirmation({
+      title: "Are you sure ? ",
+      message: "Please Confirm",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => axios
+          .delete(
+            process.env.REACT_APP_PROD_URL + "api/deleteDoctor/" +
+              index
+          )
+          .then((response) => {
+            notify("success","Successfully Deleted")
+            dispatch(deleteDoctor(index));
+          })
+          .catch((err) => {
+            notify("error","Error in Deleting")
+          })
+        },
+        {
+          label: "No, Cancel",
+        },
+      ],
+    });
+    
   };
 
   return (
