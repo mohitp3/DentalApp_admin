@@ -168,7 +168,7 @@ const appointmentReducer = (state = initialState, action) => {
     case types.GET_GAL_IMAGE:
       return {
         ...state,
-        gallery: payload,
+        gallery: payload.images,
       };
     case types.DELETE_GAL_IMAGE:
       let newgal = [...state.gallery];

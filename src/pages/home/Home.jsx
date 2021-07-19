@@ -1,18 +1,16 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import "./home.css";
 import { Button } from "@material-ui/core";
 import { DeleteOutline } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getAppointmentinit, deleteAppointment } from "../../redux/Actions";
-import { makeStyles } from '@material-ui/core/styles';
-import Pagination from '@material-ui/lab/Pagination';
-import { notify , confirmation } from "../../utils/notify";
-
-
+import { makeStyles } from "@material-ui/core/styles";
+import Pagination from "@material-ui/lab/Pagination";
+import { notify, confirmation } from "../../utils/notify";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    '& > * + *': {
+    "& > * + *": {
       marginTop: theme.spacing(2),
     },
   },
@@ -20,13 +18,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home() {
   const classes = useStyles();
-  const [page,setPage] = useState(1);
+  const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAppointmentinit());
   }, [dispatch]);
 
-  const { appointments, totalAppointments } = useSelector((state) => state.data);
+  const { appointments, totalAppointments } = useSelector(
+    (state) => state.data
+  );
 
   const handleDelete = (e, index) => {
     e.preventDefault();
@@ -46,10 +46,9 @@ export default function Home() {
   };
   useEffect(() => {
     dispatch(getAppointmentinit(page));
-    
-  }, [page])
+  }, [page]);
   const handlePageChange = (event, value) => {
-    setPage(value)
+    setPage(value);
   };
   return (
     <div className="user">
@@ -70,11 +69,13 @@ export default function Home() {
             {appointments &&
               appointments.map((item, index) => (
                 <tr className="widgetLgTr" key={item._id}>
-                  <td className="widgetLgName">{index + 1 + (page-1)*5 }</td>
+                  <td className="widgetLgName">{index + 1 + (page - 1) * 5}</td>
                   <td className="widgetLgName">{item.name}</td>
                   <td className="widgetLgName">{item.email}</td>
                   <td className="widgetLgName">{item.message}</td>
-                  <td className="widgetLgName">{new Date(item.appointmentDate).toGMTString()}</td>
+                  <td className="widgetLgName">
+                    {new Date(item.appointmentDate).toGMTString()}
+                  </td>
                   <td>
                     <Button
                       variant="contained"
@@ -92,8 +93,11 @@ export default function Home() {
         </table>
       </div>
       <div className={classes.root}>
-      <Pagination count={Math.ceil(totalAppointments/5)} onChange={handlePageChange} />
-    </div>
+        <Pagination
+          count={Math.ceil(totalAppointments / 5)}
+          onChange={handlePageChange}
+        />
+      </div>
     </div>
   );
 }
