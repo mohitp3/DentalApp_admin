@@ -13,6 +13,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ClinicData from "./pages/ClinicData/ClinicData";
 
+
 function App() {
   return (
     <Router>
@@ -44,7 +45,6 @@ function App() {
           <Route exact path="/blogs">
             <Blogs />
           </Route>
-          
         </Switch>
       </div>
       <ToastContainer

@@ -9,12 +9,18 @@ const initialState = {
   gallery: [],
   blogs: [],
   totalAppointments:0,
+  loader:false,
   clinicData: [{ rooms: 0, dentists: 0, machines: 0, patients: 0, _id: 0 }],
 };
 
 const appointmentReducer = (state = initialState, action) => {
   const { payload } = action;
   switch (action.type) {
+    case types.SET_LOADER:
+      return {
+        ...state,
+        loader:payload
+      };
     case types.GET_APPOINTMENTS:
       return {
         ...state,

@@ -7,6 +7,8 @@ import { getAppointmentinit, deleteAppointment } from "../../redux/Actions";
 import { makeStyles } from "@material-ui/core/styles";
 import Pagination from "@material-ui/lab/Pagination";
 import { notify, confirmation } from "../../utils/notify";
+import LoadingOverlay from "react-loading-overlay";
+import BeatLoader from "react-spinners/BeatLoader";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,7 +26,7 @@ export default function Home() {
     dispatch(getAppointmentinit());
   }, [dispatch]);
 
-  const { appointments, totalAppointments } = useSelector(
+  const { appointments, totalAppointments , loader } = useSelector(
     (state) => state.data
   );
 
@@ -51,11 +53,21 @@ export default function Home() {
     setPage(value);
   };
   return (
+    
+
     <div className="user">
+      <LoadingOverlay
+        active={loader}
+        spinner={<BeatLoader color="#FFA500" size={30} />}
+        text=""
+        color="#ffffff"
+      >
       <div className="userTitleContainer">
         <h1 className="userTitle">Appointments</h1>
       </div>
+      
       <div className="productList">
+      
         <table className="widgetLgTable">
           <tbody>
             <tr className="widgetLgTr">
@@ -98,6 +110,9 @@ export default function Home() {
           onChange={handlePageChange}
         />
       </div>
+      </LoadingOverlay>
+
     </div>
+   
   );
 }

@@ -1,6 +1,11 @@
 import * as types from "./actionTypes";
 import axios from "axios";
 
+export const setLoader = (data) => ({
+  type: types.SET_LOADER,
+  payload: data,
+});
+
 export const getAppointments = (data) => ({
   type: types.GET_APPOINTMENTS,
   payload: data,
@@ -131,10 +136,12 @@ export const updateClinicData = (data) => ({
 
 export const getAppointmentinit = (page=1,limit=5) => {
   return (dispatch) => {
+    dispatch(setLoader(true));
     axios
       .get(process.env.REACT_APP_PROD_URL + "api/getAppointments?page="+page+"&limit="+limit)
       .then((response) => {
         dispatch(getAppointments(response.data));
+        dispatch(setLoader(false));
       })
       .catch((err) => {
         dispatch(getAppointments([]));
